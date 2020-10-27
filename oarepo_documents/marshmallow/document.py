@@ -11,11 +11,11 @@ from flask import current_app
 from invenio_records_rest.schemas import RecordMetadataSchemaJSONV1
 from marshmallow import EXCLUDE, Schema, fields, pre_load, validate
 
-from invenio_app_ils.documents.api import Document
-from invenio_app_ils.records.loaders.schemas.changed_by import (
-    ChangedBySchema, set_changed_by)
-from invenio_app_ils.records.loaders.schemas.preserve_cover_metadata import \
-    preserve_cover_metadata
+# from invenio_app_ils.documents.api import Document
+# from invenio_app_ils.records.loaders.schemas.changed_by import (
+#     ChangedBySchema, set_changed_by)
+# from invenio_app_ils.records.loaders.schemas.preserve_cover_metadata import \
+#     preserve_cover_metadata
 
 
 class IdentifierSchema(Schema):
@@ -230,9 +230,9 @@ class DocumentSchemaV1(RecordMetadataSchemaJSONV1):
     conference_info = fields.Nested(ConferenceInfoSchema)
     copyrights = fields.List(fields.Nested(CopyrightsSchema))
     cover_metadata = fields.Dict()
-    created_by = fields.Nested(ChangedBySchema)
+    #created_by = fields.Nested(ChangedBySchema)
     curated = fields.Bool()
-    document_type = fields.Str(required=True, validate=validate.OneOf(Document.DOCUMENT_TYPES))
+    #document_type = fields.Str(required=True, validate=validate.OneOf(Document.DOCUMENT_TYPES))
     edition = fields.Str()
     extensions = fields.Method('dump_extensions', 'load_extensions')
     identifiers = fields.List(fields.Nested(IdentifierSchema))
@@ -252,7 +252,7 @@ class DocumentSchemaV1(RecordMetadataSchemaJSONV1):
     table_of_content = fields.List(fields.Str())
     tags = fields.List(fields.Str())
     title = fields.Str(required=True)
-    updated_by = fields.Nested(ChangedBySchema)
+    #updated_by = fields.Nested(ChangedBySchema)
     urls = fields.List(fields.Nested(UrlSchema))
 
     def dump_extensions(self, obj):
@@ -275,10 +275,10 @@ class DocumentSchemaV1(RecordMetadataSchemaJSONV1):
                                      .to_schema()
         return ExtensionSchema().load(value)
 
-    @pre_load
-    def preload_fields(self, data, **kwargs):
-        """Automatically inject system fields."""
-        record = self.context.get("record")
-        data.update(set_changed_by(data, record))
-        data.update(preserve_cover_metadata(data, record))
-        return data
+    # @pre_load
+    # def preload_fields(self, data, **kwargs):
+    #     """Automatically inject system fields."""
+    #     record = self.context.get("record")
+    #     data.update(set_changed_by(data, record))
+    #     data.update(preserve_cover_metadata(data, record))
+    #     return data
