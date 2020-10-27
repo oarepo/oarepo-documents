@@ -12,7 +12,7 @@ Instalation
 ```
 
  [image]: https://img.shields.io/travis/oarepo/oarepo-documents.svg
-  [1]: https://travis-ci.org/oarepo/oarepo-documents
+  [1]: https://travis-ci.com/github/oarepo/oarepo-documents
   [2]: https://img.shields.io/coveralls/oarepo/oarepo-documents.svg
   [3]: https://coveralls.io/r/oarepo/oarepo-documents
   [4]: https://img.shields.io/github/license/oarepo/oarepo-documents.svg
