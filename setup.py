@@ -17,6 +17,7 @@ install_requires = [
 ]
 
 tests_require = [
+    'coverage',
     'oarepo-multilingual',
     'oarepo-mapping-includes',
 ]
