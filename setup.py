@@ -11,20 +11,12 @@ OAREPO_VERSION = os.environ.get('OAREPO_VERSION', '3.3.0')
 
 install_requires = [
     'oarepo-mapping-includes',
-    'idutils',
-    'edtf',
-    'pycountry',
-    'faker',
     'marshmallow',
     'oarepo-multilingual',
     'flask'
 ]
 
 tests_require = [
-    'idutils',
-    'edtf',
-    'pycountry',
-    'faker',
     'oarepo-multilingual',
     'oarepo-mapping-includes',
 ]
