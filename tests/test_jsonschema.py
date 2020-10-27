@@ -33,8 +33,20 @@ def test_json(app):
     data = json.loads('{"$schema": "xxx", "pid": "xxx", "title" : {"cs": "jej", "en": "yay"}, "authors": [{"full_name":"xxx"}], "publication_year": "1970","document_type":"xx"}')
     schema.validate(data, get_schema())
 
-    # data = json.loads('{"subjects":[{"subject": {"cs":"neco", "en-us":"neco jinyho"}}]}')
-    # schema.validate(data, get_schema())
+    data = json.loads('{'
+                      '"$schema": "xxx", '
+                      '"pid": "xxx", '
+                      '"title" : {"cs": "jej", "en": "yay"}, '
+                      '"authors": [{"full_name":"xxx"}], '
+                      '"publication_year": "1970",'
+                      '"document_type":"xx", '
+                      '"abstract":{"cs": "jej", "en": "yay"}, '
+                      '"licenses":[{"license":{"title":{"cs": "jej", "en": "yay"}}}], '
+                      '"conference_info": {"title":{"cs": "jej", "en": "yay"}, "place":"xxx"},'
+                      '"note":{"cs": "jej", "en": "yay"},'
+                      '"publication_info":[{"journal_title":{"cs": "jej", "en": "yay"}}],'
+                      '"urls":[{"description": {"cs": "jej", "en": "yay"}, "value":"https://www.cesnet.cz/"}]}')
+    schema.validate(data, get_schema())
     #
     # data = json.loads('{"locations":[{"description": {"cs":"neco", "en-us":"neco jinyho"}, "place": "string"}]}')
     # schema.validate(data, get_schema())
