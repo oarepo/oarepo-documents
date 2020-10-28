@@ -20,6 +20,7 @@ from invenio_pidstore.providers.recordid_v2 import RecordIdProviderV2
 # from invenio_app_ils.minters import pid_minter
 # from invenio_app_ils.proxies import current_app_ils
 # from invenio_app_ils.records_relations.api import IlsRecordWithRelations
+from oarepo_actions.decorators import action
 
 from oarepo_validate import SchemaKeepingRecordMixin, MarshmallowValidatedRecordMixin
 from .marshmallow.document import DocumentSchemaV1
@@ -41,6 +42,10 @@ class DocumentRecord(SchemaKeepingRecordMixin,
     ALLOWED_SCHEMAS = ['document-v1.0.0.json']
     PREFERRED_SCHEMA = 'document-v1.0.0.json'
     MARSHMALLOW_SCHEMA = DocumentSchemaV1
+
+    @action(url_path = 'document/<string:DOI>') #?string pise se to tak?
+    def find_document(self, DOI = None, **kwargs):
+        return {"id": DOI}
 
 
 class SampleDraftRecord(DraftRecordMixin, DocumentRecord):
