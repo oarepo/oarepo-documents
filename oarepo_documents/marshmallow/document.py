@@ -10,7 +10,7 @@
 from flask import current_app
 from invenio_records_rest.schemas import RecordMetadataSchemaJSONV1
 from marshmallow import EXCLUDE, Schema, fields, pre_load, validate
-
+from oarepo_multilingual.marshmallow import MultilingualStringV2
 # from invenio_app_ils.documents.api import Document
 # from invenio_app_ils.records.loaders.schemas.changed_by import (
 #     ChangedBySchema, set_changed_by)
@@ -67,7 +67,7 @@ class UrlSchema(Schema):
 
         unknown = EXCLUDE
 
-    description = fields.Str()
+    description = MultilingualStringV2()
     value = fields.URL(required=True)
 
 
@@ -99,7 +99,7 @@ class ConferenceInfoSchema(Schema):
     identifiers = fields.List(fields.Nested(IdentifierSchema))
     place = fields.Str(required=True)
     series = fields.Str()
-    title = fields.Str(required=True)
+    title = MultilingualStringV2(required=True)
     year = fields.Int()
 
 
@@ -179,7 +179,7 @@ class PublicationInfoSchema(Schema):
 
     artid = fields.Str()
     journal_issue = fields.Str()
-    journal_title = fields.Str()
+    journal_title = MultilingualStringV2()
     journal_volume = fields.Str()
     note = fields.Str()
     pages = fields.Str()
@@ -197,7 +197,7 @@ class OpenDefinitionLicenseSchema(Schema):
     id = fields.Str(required=True)
     maintainer = fields.Str()
     status = fields.Str()
-    title = fields.Str()
+    title = MultilingualStringV2()
     url = fields.Str()
 
 
@@ -222,7 +222,7 @@ class DocumentSchemaV1(RecordMetadataSchemaJSONV1):
 
         unknown = EXCLUDE
 
-    abstract = fields.Str()
+    abstract = MultilingualStringV2()
     alternative_abstracts = fields.List(fields.Str())
     alternative_identifiers = fields.List(fields.Nested(IdentifierSchema))
     alternative_titles = fields.List(fields.Nested(AlternativeTitleSchema))
@@ -241,7 +241,7 @@ class DocumentSchemaV1(RecordMetadataSchemaJSONV1):
     keywords = fields.List(fields.Nested(KeywordSchema))
     languages = fields.List(fields.Str())
     licenses = fields.List(fields.Nested(LicenseSchema))
-    note = fields.Str()
+    note = MultilingualStringV2()
     number_of_pages = fields.Str()
     other_authors = fields.Bool()
     publication_info = fields.List(fields.Nested(PublicationInfoSchema))
@@ -251,7 +251,7 @@ class DocumentSchemaV1(RecordMetadataSchemaJSONV1):
     subjects = fields.List(fields.Nested(SubjectSchema))
     table_of_content = fields.List(fields.Str())
     tags = fields.List(fields.Str())
-    title = fields.Str(required=True)
+    title = MultilingualStringV2(required=True)
     #updated_by = fields.Nested(ChangedBySchema)
     urls = fields.List(fields.Nested(UrlSchema))
 
