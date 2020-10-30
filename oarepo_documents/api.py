@@ -1,26 +1,57 @@
-# # -*- coding: utf-8 -*-
-# #
-# # Copyright (C) 2020 CERN.
-# #
-# # invenio-app-ils is free software; you can redistribute it and/or modify it
-# # under the terms of the MIT License; see LICENSE file for more details.
+# -*- coding: utf-8 -*-
 #
-# """ILS Document APIs."""
+# Copyright (C) 2020 CERN.
 #
-# from functools import partial
-#
-# from flask import current_app
+# invenio-app-ils is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+
+"""ILS Document APIs."""
+
+from functools import partial
+
+from flask import current_app
 # from invenio_circulation.search.api import search_by_pid
-# from invenio_pidstore.errors import PersistentIdentifierError
-# from invenio_pidstore.models import PIDStatus
-# from invenio_pidstore.providers.recordid_v2 import RecordIdProviderV2
-#
-# # from invenio_app_ils.errors import RecordHasReferencesError
-# # from invenio_app_ils.fetchers import pid_fetcher
-# # from invenio_app_ils.minters import pid_minter
-# # from invenio_app_ils.proxies import current_app_ils
-# # from invenio_app_ils.records_relations.api import IlsRecordWithRelations
-#
+from invenio_pidstore.errors import PersistentIdentifierError
+from invenio_pidstore.models import PIDStatus
+from invenio_pidstore.providers.recordid_v2 import RecordIdProviderV2
+
+# from invenio_app_ils.errors import RecordHasReferencesError
+# from invenio_app_ils.fetchers import pid_fetcher
+# from invenio_app_ils.minters import pid_minter
+# from invenio_app_ils.proxies import current_app_ils
+# from invenio_app_ils.records_relations.api import IlsRecordWithRelations
+from oarepo_actions.decorators import action
+
+from oarepo_validate import SchemaKeepingRecordMixin, MarshmallowValidatedRecordMixin
+from .marshmallow.document import DocumentSchemaV1
+
+from oarepo_records_draft.record import DraftRecordMixin
+from invenio_records_files.api import Record
+
+# try:
+#     # try to use files enabled record
+#     from invenio_records_files.api import Record
+# except ImportError:
+#     # and fall back to normal record
+#     from invenio_records.api import Record
+
+
+class DocumentRecord(SchemaKeepingRecordMixin,
+                   MarshmallowValidatedRecordMixin,
+                   Record):
+    ALLOWED_SCHEMAS = ['document-v1.0.0.json']
+    PREFERRED_SCHEMA = 'document-v1.0.0.json'
+    MARSHMALLOW_SCHEMA = DocumentSchemaV1
+
+    @action(url_path = 'document/<string:DOI>') #?string pise se to tak?
+    def find_document(self, DOI = None, **kwargs):
+        return {"id": DOI}
+
+
+class SampleDraftRecord(DraftRecordMixin, DocumentRecord):
+    pass
+
+
 # DOCUMENT_PID_TYPE = "docid"
 # DOCUMENT_PID_MINTER = "docid"
 # DOCUMENT_PID_FETCHER = "docid"
