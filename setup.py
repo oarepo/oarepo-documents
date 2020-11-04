@@ -62,9 +62,12 @@ setup(
     zip_safe=False,
     packages=['oarepo_documents'],
     entry_points={
-        'invenio_search.mappings': [
-            'documents= oarepo_documents.mappings',
+        'oarepo_mapping_includes':[
+            'oarepo_documents = oarepo_documents.included_mappings'
         ],
+        # 'invenio_search.mappings': [
+        #     'documents= oarepo_documents.mappings',
+        # ],
         'invenio_jsonschemas.schemas': [
             'oarepo_documents = oarepo_documents.jsonschemas',
         ],
