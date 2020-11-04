@@ -3,7 +3,7 @@
   "type": "object",
   "properties": {
     "these": {
-            "$ref": "https://localhost:5000/schemas/dcterms-v2.0.0.json#/definitions/DCObject"
+            "$ref": "https://localhost:5000/schemas/document-v1.0.0.json#/definitions/Document"
       }
   }
 }
