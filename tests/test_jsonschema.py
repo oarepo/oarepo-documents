@@ -18,10 +18,10 @@ def get_schema():
     """This function loads the given schema available"""
 
     try:
-        with open('../oarepo_documents/jsonschemas/document-v1.0.0.json', 'r') as file:
+        with open('test_module/jsonschemas/test/test-v1.0.0.json', 'r') as file:
             schema = json.load(file)
     except:
-        with open('./oarepo_documents/jsonschemas/document-v1.0.0.json', 'r') as file:
+        with open('./tests/test_module/jsonschemas/test/test-v1.0.0.json', 'r') as file:
             schema = json.load(file)
 
     return schema
@@ -30,10 +30,10 @@ def test_json(app):
     """Test of json schema with app."""
     schema = app.extensions['invenio-records']
 
-    data = json.loads('{"$schema": "xxx", "pid": "xxx", "title" : {"cs": "jej", "en": "yay"}, "authors": [{"full_name":"xxx"}], "publication_year": "1970","document_type":"xx"}')
+    data = json.loads('{"these":{"$schema": "xxx", "pid": "xxx", "title" : {"cs": "jej", "en": "yay"}, "authors": [{"full_name":"xxx"}], "publication_year": "1970","document_type":"xx"}}')
     schema.validate(data, get_schema())
 
-    data = json.loads('{'
+    data = json.loads('{"these":{'
                       '"$schema": "xxx", '
                       '"pid": "xxx", '
                       '"title" : {"cs": "jej", "en": "yay"}, '
@@ -45,7 +45,7 @@ def test_json(app):
                       '"conference_info": {"title":{"cs": "jej", "en": "yay"}, "place":"xxx"},'
                       '"note":{"cs": "jej", "en": "yay"},'
                       '"publication_info":[{"journal_title":{"cs": "jej", "en": "yay"}}],'
-                      '"urls":[{"description": {"cs": "jej", "en": "yay"}, "value":"https://www.cesnet.cz/"}]}')
+                      '"urls":[{"description": {"cs": "jej", "en": "yay"}, "value":"https://www.cesnet.cz/"}]}}')
     schema.validate(data, get_schema())
     #
     # data = json.loads('{"locations":[{"description": {"cs":"neco", "en-us":"neco jinyho"}, "place": "string"}]}')

@@ -1,11 +1,13 @@
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
+{"definitions":{
+"Document": {
+  "id": "#document",
+  "type": "object",
   "properties": {
     "$schema": {
       "type": "string"
     },
     "abstract": {
-      "$ref": "https://localhost:5000/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
+      "$ref": "/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
     },
     "alternative_abstracts": {
       "items": {
@@ -28,7 +30,10 @@
           }
         }
       },
-      "required": ["value", "scheme"],
+      "required": [
+        "value",
+        "scheme"
+      ],
       "title": "List of internal identifiers of the record",
       "type": "array"
     },
@@ -57,7 +62,9 @@
               "type": "string"
             }
           },
-          "required": ["value"],
+          "required": [
+            "value"
+          ],
           "type": "object"
         }
       ],
@@ -85,7 +92,10 @@
                         "type": "string"
                       }
                     },
-                    "required": ["value", "scheme"],
+                    "required": [
+                      "value",
+                      "scheme"
+                    ],
                     "title": "Identifiers affiliation",
                     "type": "object"
                   },
@@ -97,7 +107,9 @@
                   "type": "string"
                 }
               },
-              "required": ["name"],
+              "required": [
+                "name"
+              ],
               "type": "object"
             },
             "minItems": 1,
@@ -133,7 +145,10 @@
                   "type": "string"
                 }
               },
-              "required": ["scheme", "value"],
+              "required": [
+                "scheme",
+                "value"
+              ],
               "title": "Author identifier",
               "type": "object"
             },
@@ -158,8 +173,12 @@
             "type": "string"
           }
         },
-        "required": ["full_name"],
-        "default": {"full_name":  "Various authors"},
+        "required": [
+          "full_name"
+        ],
+        "default": {
+          "full_name": "Various authors"
+        },
         "type": "object"
       },
       "minItems": 1,
@@ -202,7 +221,10 @@
             }
           },
           "minLength": 1,
-          "required": ["scheme", "value"],
+          "required": [
+            "scheme",
+            "value"
+          ],
           "type": "array"
         },
         "place": {
@@ -215,14 +237,17 @@
           "type": "string"
         },
         "title": {
-          "$ref": "https://localhost:5000/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
+          "$ref": "/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
         },
         "year": {
           "minLength": 1,
           "type": "integer"
         }
       },
-      "required": ["place", "title"],
+      "required": [
+        "place",
+        "title"
+      ],
       "type": "object"
     },
     "copyrights": {
@@ -303,12 +328,22 @@
           {
             "type": "array",
             "items": {
-              "type": ["boolean", "number", "string"]
+              "type": [
+                "boolean",
+                "number",
+                "string"
+              ]
             }
           },
-          { "type": "boolean" },
-          { "type": "number" },
-          { "type": "string" }
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          }
         ]
       },
       "description": "Configured additional metadata",
@@ -330,7 +365,10 @@
             "type": "string"
           }
         },
-        "required": ["value", "scheme"]
+        "required": [
+          "value",
+          "scheme"
+        ]
       },
       "title": "List of Identifiers of the record",
       "type": "array"
@@ -379,7 +417,9 @@
             "type": "string"
           }
         },
-        "required": ["value"]
+        "required": [
+          "value"
+        ]
       },
       "minItems": 1,
       "title": "List of internal notes",
@@ -437,10 +477,14 @@
                 "type": "string"
               },
               "status": {
-                "enum": ["active", "superseded", "retired"]
+                "enum": [
+                  "active",
+                  "superseded",
+                  "retired"
+                ]
               },
               "title": {
-                "$ref": "https://localhost:5000/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
+                "$ref": "/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
               },
               "url": {
                 "type": "string"
@@ -462,7 +506,7 @@
       "uniqueItems": true
     },
     "note": {
-      "$ref": "https://localhost:5000/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
+      "$ref": "/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
     },
     "number_of_pages": {
       "minLength": 1,
@@ -497,7 +541,7 @@
             "type": "string"
           },
           "journal_title": {
-            "$ref": "https://localhost:5000/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
+            "$ref": "/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
           },
           "journal_volume": {
             "minLength": 1,
@@ -654,7 +698,10 @@
             "type": "string"
           }
         },
-        "required": ["value", "scheme"],
+        "required": [
+          "value",
+          "scheme"
+        ],
         "title": "List of subjects of the document.",
         "type": "object"
       },
@@ -681,7 +728,7 @@
       "uniqueItems": true
     },
     "title": {
-      "$ref": "https://localhost:5000/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
+      "$ref": "/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
     },
     "updated_by": {
       "properties": {
@@ -700,7 +747,7 @@
         "additionalProperties": false,
         "properties": {
           "description": {
-            "$ref": "https://localhost:5000/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
+            "$ref": "/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
           },
           "value": {
             "format": "uri",
@@ -708,7 +755,9 @@
             "type": "string"
           }
         },
-        "required": ["value"],
+        "required": [
+          "value"
+        ],
         "title": "URL of external resource",
         "type": "object"
       },
@@ -717,7 +766,16 @@
       "uniqueItems": true
     }
   },
-  "required": ["$schema", "pid", "title", "authors", "publication_year", "document_type"],
+  "required": [
+    "$schema",
+    "pid",
+    "title",
+    "authors",
+    "publication_year",
+    "document_type"
+  ],
   "title": "Document",
   "type": "object"
+}
+}
 }

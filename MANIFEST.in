@@ -18,4 +18,5 @@ recursive-include oarepo_documents *.json
 recursive-include oarepo_documents *.json
 recursive-include tests *.json
 recursive-include tests *.csv
+recursive-include included_mappings *.json
 

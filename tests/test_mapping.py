@@ -4,10 +4,12 @@ import json
 def test_mapping(app):
     """Test of mapping."""
     search = app.extensions['invenio-search']
-    with open(search.mappings['documents-document-v1.0.0']) as f:
+    with open(search.mappings['test-test-v1.0.0']) as f:
         data = json.load(f)
     assert data == {
   "mappings": {
+    "properties":{
+      "Document":{
     "date_detection": False,
     "numeric_detection": False,
     "properties": {
@@ -849,3 +851,4 @@ def test_mapping(app):
     }
   }
 }
+  }}
