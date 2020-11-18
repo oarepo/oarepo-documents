@@ -17,7 +17,8 @@ install_requires = [
     'oarepo-mapping-includes',
     'marshmallow',
     'oarepo-multilingual',
-    'flask'
+    'flask',
+    'crossrefapi'
 ]
 
 tests_require = [
@@ -27,6 +28,7 @@ tests_require = [
     'coverage',
     'oarepo-multilingual',
     'oarepo-mapping-includes',
+    'crossrefapi'
 ]
 
 extras_require = {
