@@ -16,6 +16,7 @@ install_requires = [
     'oarepo-mapping-includes',
     'marshmallow',
     'oarepo-multilingual',
+    'crossrefapi'
 ]
 
 tests_require = [
