@@ -13,30 +13,18 @@ install_requires = [
     'oarepo-records-draft',
     'oarepo-actions',
     'oarepo-validate',
-    'coverage',
     'oarepo-mapping-includes',
     'marshmallow',
     'oarepo-multilingual',
-    'flask'
 ]
 
 tests_require = [
-    'oarepo-records-draft',
-    'oarepo-actions',
-    'oarepo-validate',
-    'coverage',
-    'oarepo-multilingual',
-    'oarepo-mapping-includes',
 ]
 
 extras_require = {
     'tests': [
         *tests_require,
         'oarepo[tests]~={version}'.format(
-            version=OAREPO_VERSION)],
-    'tests-es7': [
-        *tests_require,
-        'oarepo[tests-es7]~={version}'.format(
             version=OAREPO_VERSION)],
 }
 
@@ -62,7 +50,7 @@ setup(
     zip_safe=False,
     packages=['oarepo_documents'],
     entry_points={
-        'oarepo_mapping_includes':[
+        'oarepo_mapping_includes': [
             'oarepo_documents = oarepo_documents.included_mappings'
         ],
         # 'invenio_search.mappings': [
