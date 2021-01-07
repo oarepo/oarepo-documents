@@ -10,9 +10,9 @@ OAREPO_VERSION = os.environ.get('OAREPO_VERSION', '3.3.0')
 
 
 install_requires = [
-    'oarepo-records-draft',
-    # 'oarepo-actions',
-    # 'oarepo-validate',
+    #'oarepo-records-draft',
+    'oarepo-actions',
+    'oarepo-validate',
     # 'coverage',
     'oarepo-mapping-includes',
     'marshmallow',
