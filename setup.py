@@ -14,7 +14,7 @@ install_requires = [
     # 'oarepo-actions',
     # 'oarepo-validate',
     # 'coverage',
-    # 'oarepo-mapping-includes',
+    'oarepo-mapping-includes',
     'marshmallow',
     # 'oarepo-multilingual',
     'flask',
