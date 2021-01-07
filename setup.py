@@ -32,7 +32,8 @@ tests_require = [
     'oarepo-mapping-includes',
     'crossrefapi',
     'deepmerge',
-    'langdetect'
+    'langdetect',
+    'invenio-search'
 ]
 
 extras_require = {
