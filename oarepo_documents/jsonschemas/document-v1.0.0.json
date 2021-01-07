@@ -10,12 +10,7 @@
       "$ref": "/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
     },
     "alternative_abstracts": {
-      "items": {
-        "type": "string"
-      },
-      "title": "List of supplementary abstracts",
-      "type": "array",
-      "uniqueItems": true
+      "$ref": "/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
     },
     "alternative_identifiers": {
       "items": {
@@ -38,39 +33,7 @@
       "type": "array"
     },
     "alternative_titles": {
-      "description": "Alternative titles of the document",
-      "items": [
-        {
-          "additionalProperties": false,
-          "properties": {
-            "language": {
-              "maxLength": 2,
-              "minLength": 2,
-              "title": "ISO 639-1 language code (Vocabulary)",
-              "type": "string"
-            },
-            "source": {
-              "title": "Source of the alternative title.",
-              "type": "string"
-            },
-            "type": {
-              "title": "Type of alternative title (Vocabulary)",
-              "type": "string"
-            },
-            "value": {
-              "minLength": 1,
-              "type": "string"
-            }
-          },
-          "required": [
-            "value"
-          ],
-          "type": "object"
-        }
-      ],
-      "minItems": 1,
-      "type": "array",
-      "uniqueItems": true
+      "$ref": "/schemas/multilingual-v2.0.0.json#/definitions/multilingual"
     },
     "authors": {
       "items": {

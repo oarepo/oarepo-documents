@@ -21,13 +21,19 @@ from invenio_pidstore.providers.recordid_v2 import RecordIdProviderV2
 # from invenio_app_ils.proxies import current_app_ils
 # from invenio_app_ils.records_relations.api import IlsRecordWithRelations
 from oarepo_actions.decorators import action
-
+import requests
+from crossref.restful import Works
+import uuid
+from .minter import document_minter
+from invenio_indexer.api import RecordIndexer
+from .document_json_mapping import schema_mapping
+from invenio_pidstore.providers.recordid import RecordIdProvider
 from oarepo_validate import SchemaKeepingRecordMixin, MarshmallowValidatedRecordMixin
 from .marshmallow.document import DocumentSchemaV1
-
+from invenio_pidstore.models import PersistentIdentifier, PIDStatus
 from oarepo_records_draft.record import DraftRecordMixin
 from invenio_records_files.api import Record
-
+from invenio_db import db
 # try:
 #     # try to use files enabled record
 #     from invenio_records_files.api import Record
@@ -36,20 +42,97 @@ from invenio_records_files.api import Record
 #     from invenio_records.api import Record
 
 
-class DocumentRecord(SchemaKeepingRecordMixin,
-                   MarshmallowValidatedRecordMixin,
-                   Record):
-    ALLOWED_SCHEMAS = ['document-v1.0.0.json']
-    PREFERRED_SCHEMA = 'document-v1.0.0.json'
-    MARSHMALLOW_SCHEMA = DocumentSchemaV1
+class DocumentRecordMixin:
 
-    @action(url_path = 'document/<string:DOI>') #?string pise se to tak?
-    def find_document(self, DOI = None, **kwargs):
-        return {"id": DOI}
+    @classmethod
+    @action(detail=False, url_path="document/<string:first_part>/<string:second_part>")
+    def document_by_doi(cls, record_class, first_part=None, second_part=None, **kwargs):
+        doi = first_part + '/' + second_part
+        try:
+            pid = PersistentIdentifier.get('recid', doi)
+        except:
+            pid = None
+        if pid != None:
+            record = record_class.get_record(pid.object_uuid)
+            return record
+        else:
+            try:
+                existing_document = getMetadataFromDOI(doi)
+            except:
+                #todo jaka ma byt zabavna hlaska?
+                return {"doi" :"does not eixst"} #az na to ze tohle rozhodne jinak...
+
+        record_uuid = uuid.uuid4()
+
+        data = schema_mapping(existing_document, doi)
+        pid, data = document_minter(record_uuid, data)
+        record = record_class.create(data=data, id_=record_uuid)
+        indexer = RecordIndexer()
+        res = indexer.index(record)
+        new_doi = PersistentIdentifier.create('recid', doi, object_type='doi',
+                                              object_uuid=record_uuid,
+                                              status=PIDStatus.RESERVED)
+
+        db.session.commit()
+        return record
+
+class CrossRefClient(object):
+
+    def __init__(self, accept='text/x-bibliography; style=apa', timeout=3):
+        """
+        # Defaults to APA biblio style
+
+        # Usage:
+        s = CrossRefClient()
+        print s.doi2apa("10.1038/nature10414")
+        """
+        self.headers = {'accept': accept}
+        self.timeout = timeout
+
+    def query(self, doi, q={}):
+        if doi.startswith("http://"):
+            url = doi
+        else:
+            url = "http://dx.doi.org/" + doi
+
+        r = requests.get(url, headers=self.headers)
+        print(r)
+        return r
+
+    def doi2apa(self, doi):
+        self.headers['accept'] = 'text/x-bibliography; style=apa'
+        return self.query(doi).text
+
+    def doi2turtle(self, doi):
+        self.headers['accept'] = 'text/turtle'
+        return self.query(doi).text
+
+    def doi2json(self, doi):
+        self.headers['accept'] = 'application/vnd.citationstyles.csl+json'
+        print(self.query(doi).text)
+        return self.query(doi).json()
+
+    def doi2xml(self, doi):
+        self.headers['accept'] = 'application/rdf+xml'
+        return self.query(doi).text
 
 
-class SampleDraftRecord(DraftRecordMixin, DocumentRecord):
-    pass
+
+def getMetadataFromDOI(id):
+    works = Works()
+    metadata = works.doi(id)
+
+    if metadata is None:
+        s = CrossRefClient()
+        metadata = s.doi2json(id)
+        #metadata = s.doi2turtle(id)
+        #metadata = s.doi2apa(id)
+        #metadata = s.doi2xml(id)
+
+    return metadata
+
+# class SampleDraftRecord(DraftRecordMixin, DocumentRecord):
+#     pass
 
 
 # DOCUMENT_PID_TYPE = "docid"

@@ -223,9 +223,9 @@ class DocumentSchemaV1(RecordMetadataSchemaJSONV1):
         unknown = EXCLUDE
 
     abstract = MultilingualStringV2()
-    alternative_abstracts = fields.List(fields.Str())
+    alternative_abstracts = MultilingualStringV2()
     alternative_identifiers = fields.List(fields.Nested(IdentifierSchema))
-    alternative_titles = fields.List(fields.Nested(AlternativeTitleSchema))
+    alternative_titles = MultilingualStringV2()
     authors = fields.List(fields.Nested(AuthorSchema), required=True)
     conference_info = fields.Nested(ConferenceInfoSchema)
     copyrights = fields.List(fields.Nested(CopyrightsSchema))

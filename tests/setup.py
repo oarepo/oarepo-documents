@@ -11,8 +11,12 @@ setup(
             "test = test_module.mappings"
         ],
         "invenio_records.validate":[
-            "test = test_module.jsonschemas"
-        ]
+            "tests = test_module.jsonschemas"
+        ],
+        'invenio_base.apps': [
+            'document = oarepo_document.DocumentRecord',
+            'oarepo_actions = oarepo_actions:Actions'
+        ],
     },
     include_package_data=True,
     platforms='any',

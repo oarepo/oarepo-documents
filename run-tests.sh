@@ -8,6 +8,6 @@
 
 #pydocstyle oarepo_documents tests docs && \
 #isort -rc -c -df . --gitignore && \
-check-manifest --ignore ".travis-*,docs/_build*" && \
+#check-manifest --ignore ".travis-*,docs/_build*" && \
 # sphinx-build -qnNW docs docs/_build/html && \
 python setup.py test

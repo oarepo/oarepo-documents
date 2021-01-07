@@ -67,11 +67,18 @@ setup(
         'oarepo_mapping_includes':[
             'oarepo_documents = oarepo_documents.included_mappings'
         ],
+        #'invenio_search.mappings': [
+        #    'documents= oarepo_documents.mappings',
+        #],
         # 'invenio_search.mappings': [
-        #     'documents= oarepo_documents.mappings',
+        #     'test_mapping = test_mapping.mappings'
         # ],
         'invenio_jsonschemas.schemas': [
             'oarepo_documents = oarepo_documents.jsonschemas',
+        ],
+        'invenio_base.apps': [
+            'document = oarepo_document.DocumentRecord',
+            'oarepo_actions = oarepo_actions:Actions'
         ],
     },
     include_package_data=True,

@@ -26,7 +26,7 @@
         "type": "multilingual"
       },
       "alternative_abstracts": {
-        "type": "text"
+        "type": "multilingual"
       },
       "alternative_identifiers": {
         "properties": {
@@ -43,21 +43,7 @@
         "type": "object"
       },
       "alternative_titles": {
-        "properties": {
-          "language": {
-            "type": "keyword"
-          },
-          "source": {
-            "type": "keyword"
-          },
-          "type": {
-            "type": "keyword"
-          },
-          "value": {
-            "type": "text"
-          }
-        },
-        "type": "object"
+        "type": "multilingual"
       },
       "authors": {
         "properties": {
