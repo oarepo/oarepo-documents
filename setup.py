@@ -33,7 +33,6 @@ tests_require = [
     'crossrefapi',
     'deepmerge',
     'langdetect',
-    'invenio-search'
 ]
 
 extras_require = {

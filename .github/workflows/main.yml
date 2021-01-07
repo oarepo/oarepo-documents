@@ -58,7 +58,6 @@ jobs:
 
       - name: Test with pytest
         run: |
-          pip install -e .
           pip install -e sample
           pytest tests
 
