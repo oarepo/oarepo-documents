@@ -18,7 +18,9 @@ install_requires = [
     'marshmallow',
     'oarepo-multilingual',
     'flask',
-    'crossrefapi'
+    'crossrefapi',
+    'deepmerge',
+    'langdetect'
 ]
 
 tests_require = [
@@ -28,18 +30,22 @@ tests_require = [
     'coverage',
     'oarepo-multilingual',
     'oarepo-mapping-includes',
-    'crossrefapi'
+    'crossrefapi',
+    'deepmerge',
+    'langdetect'
 ]
 
 extras_require = {
     'tests': [
+    'oarepo[tests]~={version}'.format(
+            version=OAREPO_VERSION),
         *tests_require,
-        'oarepo[tests]~={version}'.format(
-            version=OAREPO_VERSION)],
+        ],
     'tests-es7': [
+    'oarepo[tests-es7]~={version}'.format(
+            version=OAREPO_VERSION),
         *tests_require,
-        'oarepo[tests-es7]~={version}'.format(
-            version=OAREPO_VERSION)],
+        ],
 }
 
 setup_requires = [
