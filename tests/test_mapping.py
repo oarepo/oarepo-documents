@@ -4,7 +4,7 @@ import json
 def test_mapping(app):
     """Test of mapping."""
     search = app.extensions['invenio-search']
-    with open('./test_module/mappings/v7/test/test-v1.0.0.json') as f:
+    with open(search.mappings['test-test-v1.0.0']) as f:
     #with open(search.mappings['pokus-pokus-v1.0.0']) as f:
         data = json.load(f)
     assert data == {

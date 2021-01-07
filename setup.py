@@ -30,6 +30,7 @@ tests_require = [
     'coverage',
     'oarepo-multilingual',
     'oarepo-mapping-includes',
+    'invenio-search',
     'crossrefapi',
     'deepmerge',
     'langdetect',

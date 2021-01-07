@@ -81,14 +81,13 @@ def app(base_app):
     InvenioREST(base_app)
     InvenioRecordsREST(base_app)
     InvenioRecords(base_app)
-    #InvenioJSONSchemas(base_app)
     InvenioPIDStore(base_app)
     OARepoValidate(base_app)
     Actions(base_app)
     base_app.url_map.converters['pid'] = PIDConverter
     SampleExt(base_app)
     OARepoMappingIncludesExt(base_app)
-    #DocumentRecord(base_app)
+    InvenioSearch(base_app)
 
     base_app.register_blueprint(create_blueprint_from_app(base_app))
 
