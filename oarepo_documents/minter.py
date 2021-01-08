@@ -1,5 +1,6 @@
 from invenio_pidstore.providers.recordid import RecordIdProvider
 
+
 def document_minter(object_uuid, data):
 
     provider = RecordIdProvider.create(

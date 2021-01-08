@@ -19,12 +19,13 @@ from invenio_records_rest.views import create_blueprint_from_app
 from invenio_rest import InvenioREST
 from invenio_search import InvenioSearch
 from invenio_search.cli import destroy, init
-from oarepo_mapping_includes.ext import OARepoMappingIncludesExt
-from sample.ext import SampleExt
-from sqlalchemy_utils import create_database, database_exists
-from oarepo_validate.ext import OARepoValidate
-
 from oarepo_actions.ext import Actions
+from oarepo_mapping_includes.ext import OARepoMappingIncludesExt
+from oarepo_validate.ext import OARepoValidate
+from sqlalchemy_utils import create_database, database_exists
+
+from sample.ext import SampleExt
+
 
 @pytest.fixture()
 def base_app():

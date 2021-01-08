@@ -10,23 +10,24 @@
 from __future__ import absolute_import, print_function
 
 import json
+import subprocess
 import uuid
 
 import invenio_records
-from invenio_pidstore.providers.recordid import RecordIdProvider
-from invenio_pidstore.models import PersistentIdentifier, PIDStatus
-from invenio_pidstore.resolver import Resolver
-from invenio_records_files.api import Record as FilesRecord
-from oarepo_actions.decorators import action
-from invenio_pidstore import resolver
-from crossref.restful import Works
 import requests
-import subprocess
+from crossref.restful import Works
 from invenio_db import db
+from invenio_pidstore import resolver
+from invenio_pidstore.models import PersistentIdentifier, PIDStatus
+from invenio_pidstore.providers.recordid import RecordIdProvider
+from invenio_pidstore.resolver import Resolver
+from invenio_records import Record as Rec
+from invenio_records_files.api import Record as FilesRecord
+from invenio_records_rest.schemas.fields import PersistentIdentifier as PersistentID
+from oarepo_actions.decorators import action
+
 #from invenio_records import Record
 
-from invenio_records_rest.schemas.fields import PersistentIdentifier as PersistentID
-from invenio_records import Record as Rec
 class Record(FilesRecord):
     """Custom record."""
 

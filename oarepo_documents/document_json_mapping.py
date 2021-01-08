@@ -1,5 +1,6 @@
 from deepmerge import always_merger
-from langdetect import detect_langs, detect
+from langdetect import detect, detect_langs
+
 
 def try_name(nlist,record, default=None):
     for name in nlist:

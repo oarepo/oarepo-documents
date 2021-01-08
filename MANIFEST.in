@@ -12,6 +12,7 @@ exclude run-tests.sh
 exclude tests
 include *.rst
 include *.md
+include *.db
 
 recursive-include oarepo_documents *.py
 recursive-include oarepo_documents *.json
@@ -19,4 +20,8 @@ recursive-include oarepo_documents *.json
 recursive-include tests *.json
 recursive-include tests *.csv
 recursive-include included_mappings *.json
+recursive-include sample *.json
+recursive-include sample *.py
+recursive-include tests *.db
+
 
