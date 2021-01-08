@@ -5,6 +5,7 @@ def test_mapping(app):
     """Test of mapping."""
     search = app.extensions['invenio-search']
     with open(search.mappings['test-test-v1.0.0']) as f:
+    #with open(search.mappings['pokus-pokus-v1.0.0']) as f:
         data = json.load(f)
     assert data == {
   "mappings": {
@@ -47,9 +48,23 @@ def test_mapping(app):
                                }
                     }
                           },
-      "alternative_abstracts": {
-        "type": "text"
-      },
+      "alternative_abstracts": {'type': 'object', 'properties':
+                    {
+                        'cs': {'type': 'text',
+                               'fields': {
+                                   "keywords": {
+                                       "type": "keyword"
+                                   }
+                               }},
+                        'en': {'type': 'text',
+                               'fields': {
+                                   "keywords": {
+                                       "type": "keyword"
+                                   }
+                               }
+                               }
+                    }
+                          },
       "alternative_identifiers": {
         "properties": {
           "material": {
@@ -64,23 +79,23 @@ def test_mapping(app):
         },
         "type": "object"
       },
-      "alternative_titles": {
-        "properties": {
-          "language": {
-            "type": "keyword"
-          },
-          "source": {
-            "type": "keyword"
-          },
-          "type": {
-            "type": "keyword"
-          },
-          "value": {
-            "type": "text"
-          }
-        },
-        "type": "object"
-      },
+      "alternative_titles": {'type': 'object', 'properties':
+                    {
+                        'cs': {'type': 'text',
+                               'fields': {
+                                   "keywords": {
+                                       "type": "keyword"
+                                   }
+                               }},
+                        'en': {'type': 'text',
+                               'fields': {
+                                   "keywords": {
+                                       "type": "keyword"
+                                   }
+                               }
+                               }
+                    }
+                          },
       "authors": {
         "properties": {
           "affiliations": {

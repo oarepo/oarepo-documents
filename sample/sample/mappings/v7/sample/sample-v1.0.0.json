@@ -1,0 +1,11 @@
+{
+  "mappings": {
+    "dynamic": "strict",
+    "oarepo:extends": "document-v1.0.0.json#/Document",
+    "properties": {
+         "extra_property": {
+        "type": "text"
+      }
+    }
+  }
+}

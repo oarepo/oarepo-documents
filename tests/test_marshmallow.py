@@ -21,10 +21,12 @@ def test_marshmallow_app(app):
     app.config.update(SUPPORTED_LANGUAGES=["cs", "en"])
     data = {"title": {"cs": "fff"},
             "authors": [{"full_name": "xxx"}],
-            "publication_year": "1970",
+            "publication_year": "unknown",
             # "document_type":"qqq",
             "restricted": False,
             "abstract": {"cs": "jej", "en": "yay"},
+            "alternative_abstracts": {"cs": "jej", "en": "yay"},
+            "alternative_titles": {"cs": "jej", "en": "yay"},
             "licenses": [{"license": {"title": {"cs": "jej", "en": "yay"}, "id": "cosi?"}}],
             "conference_info": {"title": {"cs": "jej", "en": "yay"}, "place": "xxx"},
             "note": {"cs": "jej", "en": "yay"},

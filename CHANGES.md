@@ -5,8 +5,8 @@ oarepo-documents is free software; you can redistribute it and/or modify it
 under the terms of the MIT License; see LICENSE file for more details.
 -->
 
-# Changes
+# Changes 
 
-## Version 2.0.0 (released 2020-08-25)
+## Version 1.0.0 
 
 - Initial public release.

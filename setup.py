@@ -10,15 +10,17 @@ OAREPO_VERSION = os.environ.get('OAREPO_VERSION', '3.3.0')
 
 
 install_requires = [
-    'oarepo-records-draft',
-    'oarepo-actions',
-    'oarepo-validate',
-    'coverage',
+    #'oarepo-records-draft',
+    #'oarepo-actions',
+    #'oarepo-validate',
+    # 'coverage',
     'oarepo-mapping-includes',
     'marshmallow',
-    'oarepo-multilingual',
+    # 'oarepo-multilingual',
     'flask',
-    'crossrefapi'
+    'crossrefapi',
+    'deepmerge',
+    'langdetect'
 ]
 
 tests_require = [
@@ -28,18 +30,23 @@ tests_require = [
     'coverage',
     'oarepo-multilingual',
     'oarepo-mapping-includes',
-    'crossrefapi'
+    'invenio-search',
+    'crossrefapi',
+    'deepmerge',
+    'langdetect',
 ]
 
 extras_require = {
     'tests': [
+    'oarepo[tests]~={version}'.format(
+            version=OAREPO_VERSION),
         *tests_require,
-        'oarepo[tests]~={version}'.format(
-            version=OAREPO_VERSION)],
+        ],
     'tests-es7': [
+    'oarepo[tests-es7]~={version}'.format(
+            version=OAREPO_VERSION),
         *tests_require,
-        'oarepo[tests-es7]~={version}'.format(
-            version=OAREPO_VERSION)],
+        ],
 }
 
 setup_requires = [
@@ -67,11 +74,18 @@ setup(
         'oarepo_mapping_includes':[
             'oarepo_documents = oarepo_documents.included_mappings'
         ],
+        #'invenio_search.mappings': [
+        #    'documents= oarepo_documents.mappings',
+        #],
         # 'invenio_search.mappings': [
-        #     'documents= oarepo_documents.mappings',
+        #     'test_mapping = test_mapping.mappings'
         # ],
         'invenio_jsonschemas.schemas': [
             'oarepo_documents = oarepo_documents.jsonschemas',
+        ],
+        'invenio_base.apps': [
+            'document = oarepo_document.DocumentRecord',
+            'oarepo_actions = oarepo_actions:Actions'
         ],
     },
     include_package_data=True,

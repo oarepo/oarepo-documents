@@ -11,6 +11,7 @@ from flask import current_app
 from invenio_records_rest.schemas import RecordMetadataSchemaJSONV1
 from marshmallow import EXCLUDE, Schema, fields, pre_load, validate
 from oarepo_multilingual.marshmallow import MultilingualStringV2
+
 # from invenio_app_ils.documents.api import Document
 # from invenio_app_ils.records.loaders.schemas.changed_by import (
 #     ChangedBySchema, set_changed_by)
@@ -223,9 +224,9 @@ class DocumentSchemaV1(RecordMetadataSchemaJSONV1):
         unknown = EXCLUDE
 
     abstract = MultilingualStringV2()
-    alternative_abstracts = fields.List(fields.Str())
+    alternative_abstracts = MultilingualStringV2()
     alternative_identifiers = fields.List(fields.Nested(IdentifierSchema))
-    alternative_titles = fields.List(fields.Nested(AlternativeTitleSchema))
+    alternative_titles = MultilingualStringV2()
     authors = fields.List(fields.Nested(AuthorSchema), required=True)
     conference_info = fields.Nested(ConferenceInfoSchema)
     copyrights = fields.List(fields.Nested(CopyrightsSchema))
