@@ -36,10 +36,12 @@ from .minter import document_minter
 
 
 class DocumentRecordMixin:
+    """Class for document record."""
 
     @classmethod
     @action(detail=False, url_path="document/<string:first_part>/<string:second_part>")
     def document_by_doi(cls, record_class, first_part=None, second_part=None, **kwargs):
+        """Get metadata from DOI."""
         doi = first_part + '/' + second_part
         try:
             pid = PersistentIdentifier.get('recid', doi)
@@ -69,10 +71,11 @@ class DocumentRecordMixin:
         return record
 
 class CrossRefClient(object):
+    """Class for CrossRefClient."""
 
     def __init__(self, accept='text/x-bibliography; style=apa', timeout=3):
         """
-        # Defaults to APA biblio style
+        # Defaults to APA biblio style.
 
         # Usage:
         s = CrossRefClient()
@@ -82,13 +85,13 @@ class CrossRefClient(object):
         self.timeout = timeout
 
     def query(self, doi, q={}):
+        #Get query.
         if doi.startswith("http://"):
             url = doi
         else:
             url = "http://dx.doi.org/" + doi
 
         r = requests.get(url, headers=self.headers)
-        print(r)
         return r
 
     def doi2apa(self, doi):
@@ -101,7 +104,6 @@ class CrossRefClient(object):
 
     def doi2json(self, doi):
         self.headers['accept'] = 'application/vnd.citationstyles.csl+json'
-        print(self.query(doi).text)
         return self.query(doi).json()
 
     def doi2xml(self, doi):

@@ -55,7 +55,9 @@ def base_app():
         JSONSCHEMAS_HOST='localhost:5000',
         SEARCH_ELASTIC_HOSTS=os.environ.get('SEARCH_ELASTIC_HOSTS', None),
         PIDSTORE_RECID_FIELD='id',
-        SUPPORTED_LANGUAGES = ["cs", "en", "??"],
+        SUPPORTED_LANGUAGES = ["cs", "en",
+                               #"??"
+                               ],
         ELASTICSEARCH_DEFAULT_LANGUAGE_TEMPLATE={
             "type": "text",
             "fields": {
