@@ -34,13 +34,6 @@ from .document_json_mapping import schema_mapping
 from .marshmallow.document import DocumentSchemaV1
 from .minter import document_minter
 
-# try:
-#     # try to use files enabled record
-#     from invenio_records_files.api import Record
-# except ImportError:
-#     # and fall back to normal record
-#     from invenio_records.api import Record
-
 
 class DocumentRecordMixin:
 
@@ -59,8 +52,7 @@ class DocumentRecordMixin:
             try:
                 existing_document = getMetadataFromDOI(doi)
             except:
-                #todo jaka ma byt zabavna hlaska?
-                return {"doi" :"does not eixst"} #az na to ze tohle rozhodne jinak...
+                pass #todo: what to do here?
 
         record_uuid = uuid.uuid4()
 
@@ -131,151 +123,3 @@ def getMetadataFromDOI(id):
 
     return metadata
 
-# class SampleDraftRecord(DraftRecordMixin, DocumentRecord):
-#     pass
-
-
-# DOCUMENT_PID_TYPE = "docid"
-# DOCUMENT_PID_MINTER = "docid"
-# DOCUMENT_PID_FETCHER = "docid"
-#
-# DocumentIdProvider = type(
-#     "DocumentIdProvider",
-#     (RecordIdProviderV2,),
-#     dict(pid_type=DOCUMENT_PID_TYPE, default_status=PIDStatus.REGISTERED),
-# )
-# document_pid_minter = partial(pid_minter, provider_cls=DocumentIdProvider)
-# document_pid_fetcher = partial(pid_fetcher, provider_cls=DocumentIdProvider)
-#
-#
-# class Document(IlsRecordWithRelations):
-#     """Document record class."""
-#
-#     DOCUMENT_TYPES = [
-#         "BOOK",
-#         "PROCEEDING",
-#         "STANDARD",
-#         "PERIODICAL_ISSUE",
-#     ]
-#
-#     _pid_type = DOCUMENT_PID_TYPE
-#     _schema = "documents/document-v1.0.0.json"
-#     _circulation_resolver_path = (
-#         "{scheme}://{host}/api/resolver/documents/{document_pid}/circulation"
-#     )
-#     _item_resolver_path = (
-#         "{scheme}://{host}/api/resolver/documents/{document_pid}/items"
-#     )
-#     _eitem_resolver_path = (
-#         "{scheme}://{host}/api/resolver/documents/{document_pid}/eitems"
-#     )
-#     _relations_path = (
-#         "{scheme}://{host}/api/resolver/documents/{document_pid}/relations"
-#     )
-#     _stock_resolver_path = (
-#         "{scheme}://{host}/api/resolver/documents/{document_pid}/stock"
-#     )
-#
-#     @classmethod
-#     def build_resolver_fields(cls, data):
-#         """Build all resolver fields."""
-#         data["circulation"] = {
-#             "$ref": cls._circulation_resolver_path.format(
-#                 scheme=current_app.config["JSONSCHEMAS_URL_SCHEME"],
-#                 host=current_app.config["JSONSCHEMAS_HOST"],
-#                 document_pid=data["pid"],
-#             )
-#         }
-#         data.setdefault("relations", {})
-#         data["relations"] = {
-#             "$ref": cls._relations_path.format(
-#                 scheme=current_app.config["JSONSCHEMAS_URL_SCHEME"],
-#                 host=current_app.config["JSONSCHEMAS_HOST"],
-#                 document_pid=data["pid"],
-#             )
-#         }
-#         data.setdefault("eitems", {})
-#         data["eitems"] = {
-#             "$ref": cls._eitem_resolver_path.format(
-#                 scheme=current_app.config["JSONSCHEMAS_URL_SCHEME"],
-#                 host=current_app.config["JSONSCHEMAS_HOST"],
-#                 document_pid=data["pid"],
-#             )
-#         }
-#         data.setdefault("items", {})
-#         data["items"] = {
-#             "$ref": cls._item_resolver_path.format(
-#                 scheme=current_app.config["JSONSCHEMAS_URL_SCHEME"],
-#                 host=current_app.config["JSONSCHEMAS_HOST"],
-#                 document_pid=data["pid"],
-#             )
-#         }
-#         data["stock"] = {
-#             "$ref": cls._stock_resolver_path.format(
-#                 scheme=current_app.config["JSONSCHEMAS_URL_SCHEME"],
-#                 host=current_app.config["JSONSCHEMAS_HOST"],
-#                 document_pid=data["pid"],
-#             )
-#         }
-#
-#     @classmethod
-#     def create(cls, data, id_=None, **kwargs):
-#         """Create Document record."""
-#         cls.build_resolver_fields(data)
-#         return super().create(data, id_=id_, **kwargs)
-#
-#     def update(self, *args, **kwargs):
-#         """Update Document record."""
-#         super().update(*args, **kwargs)
-#         self.build_resolver_fields(self)
-#
-#     def delete(self, **kwargs):
-#         """Delete Document record."""
-#         loan_search_res = search_by_pid(
-#             document_pid=self["pid"],
-#             filter_states=["PENDING"]
-#             + current_app.config["CIRCULATION_STATES_LOAN_ACTIVE"],
-#         )
-#         if loan_search_res.count():
-#             raise RecordHasReferencesError(
-#                 record_type="Document",
-#                 record_id=self["pid"],
-#                 ref_type="Loan",
-#                 ref_ids=sorted([res["pid"] for res in loan_search_res.scan()]),
-#             )
-#
-#         item_search = current_app_ils.item_search_cls()
-#         item_search_res = item_search.search_by_document_pid(
-#             document_pid=self["pid"]
-#         )
-#         if item_search_res.count():
-#             raise RecordHasReferencesError(
-#                 record_type="Document",
-#                 record_id=self["pid"],
-#                 ref_type="Item",
-#                 ref_ids=sorted([res["pid"] for res in item_search_res.scan()]),
-#             )
-#
-#         req_search = current_app_ils.document_request_search_cls()
-#         req_search_res = req_search.search_by_document_pid(
-#             document_pid=self["pid"]
-#         )
-#         if req_search_res.count():
-#             raise RecordHasReferencesError(
-#                 record_type="Document",
-#                 record_id=self["pid"],
-#                 ref_type="DocumentRequest",
-#                 ref_ids=sorted([res["pid"] for res in req_search_res.scan()]),
-#             )
-#
-#         return super().delete(**kwargs)
-#
-#
-# def document_exists(document_pid):
-#     """Return True if the Document exists given a PID."""
-#     Document = current_app_ils.document_record_cls
-#     try:
-#         Document.get_record_by_pid(document_pid)
-#     except PersistentIdentifierError:
-#         return False
-#     return True
