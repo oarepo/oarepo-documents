@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019 UCT Prague.
+# Copyright (c) 2020 CESNET Prague.
 #
 # version.py is part of OAREPO repository
 # (see https://github.com/oarepo).

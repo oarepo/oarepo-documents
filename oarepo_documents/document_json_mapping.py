@@ -14,10 +14,10 @@ def try_name(nlist,record, default=None):
 def schema_mapping(existing_record, doi):
     data = {}
 
-    #abstract - multilingual --- mezivalidacky!
+    #abstract - multilingual
     abstract_value =  try_name(nlist = ['abstract', 'abstracts'], record =existing_record)
     if abstract_value != None:
-        probability = detect_langs(abstract_value)
+        probability = detect_langs(abstract_value.lower())
         if probability[0].prob >= 0.99999:
             abstract_language = probability[0].lang
         else:
@@ -38,7 +38,7 @@ def schema_mapping(existing_record, doi):
             if is_string:
                 aa = {}
                 for a in alternative_abstract:
-                    probability = detect_langs(a)
+                    probability = detect_langs(a.lower())
                     if probability[0].prob >= 0.99999:
                         abstract_language = probability[0].lang
                     else:
@@ -64,7 +64,7 @@ def schema_mapping(existing_record, doi):
             if is_string:
                 aa = {}
                 for a in alternative_titles:
-                    probability = detect_langs(a)
+                    probability = detect_langs(a.lower())
                     if probability[0].prob >= 0.99999:
                         title_language = probability[0].lang
                     else:
@@ -82,33 +82,32 @@ def schema_mapping(existing_record, doi):
         if(type(authors_array) is list):
             authors_data = []
             for author in authors_array:
-                a_data = {}
+                auth_data = {}
                 if 'ORCID' in author:
-                    always_merger.merge(a_data, {"identifiers": [{"schema": "ORCID", "value": author["ORCID"]}]})
+                    always_merger.merge(auth_data, {"identifiers": [{"scheme": "ORCID", "value": author["ORCID"]}]})
                 if 'alternative_names' in author and type(author['alternative_names']) is list:
-                    always_merger.merge(a_data, {"alternative_names": author['alternative_names']})
+                    always_merger.merge(auth_data, {"alternative_names": author['alternative_names']})
                 if 'roles' in author and type(author['roles']) is list:
-                    always_merger.merge(a_data, {"roles": author['roles']})
+                    always_merger.merge(auth_data, {"roles": author['roles']})
                 if 'type' in author and type(author['type']) is str:
-                    always_merger.merge(a_data, {"type": author['type']})
+                    always_merger.merge(auth_data, {"type": author['type']})
                 #affiliation /affiliations
                 full_name = try_name(nlist=['full_name', 'name', 'fullname'], record=author)
                 if full_name != None:
-                    always_merger.merge(a_data, {"full_name": full_name})
-                    authors_data.append(a_data)
+                    always_merger.merge(auth_data, {"full_name": full_name})
+                    authors_data.append(auth_data)
                     continue
                 given = try_name(nlist=['given', 'first', 'first_name'], record=author)
                 family = try_name(nlist=['family', 'family_name', 'second_name'], record=author)
                 if(given == None or family == None):
-                    always_merger.merge(a_data, {"full_name": "unknown"})
-                    authors_data.append(a_data)
+                    always_merger.merge(auth_data, {"full_name": "unknown"})
+                    authors_data.append(auth_data)
                     continue
                 else:
                     full_name = given + " " + family
-                    always_merger.merge(a_data, {"full_name": full_name})
-                    authors_data.append(a_data)
+                    always_merger.merge(auth_data, {"full_name": full_name})
+                    authors_data.append(auth_data)
                     continue
-
 
             always_merger.merge(data, {'authors': authors_data})
 
@@ -140,7 +139,7 @@ def schema_mapping(existing_record, doi):
     if title_value != None:
         if type(title_value) is list:
             title_value= title_value[0]
-        probability = detect_langs(title_value)
+        probability = detect_langs(title_value.lower())
         if probability[0].prob >= 0.99999:
             title_language = probability[0].lang
         else:
@@ -151,4 +150,49 @@ def schema_mapping(existing_record, doi):
     else:
         always_merger.merge(data, {'title': "unknown"}) #default
 
+    # copyright
+    copyrights = try_name(nlist=['copyright', 'copyrights'], record=existing_record)
+    if copyrights != None and type(copyrights) is str:
+        always_merger.merge(data, {'copyrigts': [{"statement": copyrights}]})
+
+    # urls
+    urls = try_name(nlist=['url', 'urls', 'URL', 'URLs'], record=existing_record)
+    if urls != None and type(urls) is str:
+        always_merger.merge(data, {'urls': [{"value": urls}]})
+
+    # keywords
+    keywords = try_name(nlist=['keywords', 'keyword', 'categories'], record=existing_record)
+    if keywords != None and type(keywords) is list:
+        keywords_array = []
+        if len(keywords) == 1:
+            keys = keywords[0].split()
+        else:
+            keys = keywords
+        i = 0
+        while (i < len(keys)):
+            lowerCounter = 0
+            for key in keys:
+                if key[0].islower():
+                    lowerCounter = lowerCounter + 1
+                else:
+                    break
+            if lowerCounter == len(keywords):  # if everything in lowercase
+                for key in keys:
+                    key_json = {"value": key}
+                    keywords_array.append(key_json)
+                break
+            key = keys[i]
+            numberOfKeysTogether = 0
+            for j in range(i + 1, len(keys)):
+                if keys[j][0].islower():
+                    key = key + ' ' + keys[j]
+                    numberOfKeysTogether = numberOfKeysTogether + 1
+                else:
+                    break
+            i = i + 1 + numberOfKeysTogether
+
+            key_json = {"value": key}
+            keywords_array.append(key_json)
+
+        always_merger.merge(data, {'categories': keywords_array})
     return data
