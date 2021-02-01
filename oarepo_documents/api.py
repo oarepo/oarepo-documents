@@ -39,7 +39,7 @@ class DocumentRecordMixin:
     """Class for document record."""
 
     @classmethod
-    @action(detail=False, url_path="document/<string:first_part>/<string:second_part>")
+    @action(detail=False, method="post", url_path="document/<string:first_part>/<string:second_part>")
     def document_by_doi(cls, record_class, first_part=None, second_part=None, **kwargs):
         """Get metadata from DOI."""
         doi = first_part + '/' + second_part

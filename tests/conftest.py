@@ -21,6 +21,7 @@ from invenio_search import InvenioSearch
 from invenio_search.cli import destroy, init
 from oarepo_actions.ext import Actions
 from oarepo_mapping_includes.ext import OARepoMappingIncludesExt
+from oarepo_multilingual.ext import OARepoMultilingualExt
 from oarepo_validate.ext import OARepoValidate
 from sqlalchemy_utils import create_database, database_exists
 
@@ -55,9 +56,7 @@ def base_app():
         JSONSCHEMAS_HOST='localhost:5000',
         SEARCH_ELASTIC_HOSTS=os.environ.get('SEARCH_ELASTIC_HOSTS', None),
         PIDSTORE_RECID_FIELD='id',
-        SUPPORTED_LANGUAGES = ["cs", "en",
-                               #"??"
-                               ],
+        SUPPORTED_LANGUAGES = ["cs", "en", "it"],
         ELASTICSEARCH_DEFAULT_LANGUAGE_TEMPLATE={
             "type": "text",
             "fields": {
@@ -71,7 +70,7 @@ def base_app():
     InvenioDB(app_)
     InvenioIndexer(app_)
     InvenioSearch(app_)
-
+    OARepoMultilingualExt(app_)
     return app_
 
 

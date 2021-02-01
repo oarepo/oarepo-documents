@@ -21,7 +21,7 @@ def schema_mapping(existing_record, doi):
         if probability[0].prob >= 0.99999:
             abstract_language = probability[0].lang
         else:
-            abstract_language = '??'  # unknown language
+            abstract_language = '_'  # unknown language
 
         abstract = {abstract_language: abstract_value}
         always_merger.merge(data, {'abstract': abstract})
@@ -42,7 +42,7 @@ def schema_mapping(existing_record, doi):
                     if probability[0].prob >= 0.99999:
                         abstract_language = probability[0].lang
                     else:
-                        abstract_language = '??'  # unknown language
+                        abstract_language = '_'  # unknown language
 
                     abstract = {abstract_language: a}
                     aa = always_merger.merge(aa, abstract)
@@ -68,7 +68,7 @@ def schema_mapping(existing_record, doi):
                     if probability[0].prob >= 0.99999:
                         title_language = probability[0].lang
                     else:
-                        title_language = '??'  # unknown language
+                        title_language = '_'  # unknown language
 
                     title = {title_language: a}
                     aa = always_merger.merge(aa, title)
@@ -143,7 +143,7 @@ def schema_mapping(existing_record, doi):
         if probability[0].prob >= 0.99999:
             title_language = probability[0].lang
         else:
-            title_language = '??'  # unknown language
+            title_language = '_'  # unknown language
 
         title = {title_language: title_value}
         always_merger.merge(data, {'title': title})
