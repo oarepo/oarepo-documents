@@ -23,7 +23,7 @@
 # SOFTWARE.
 #
 
-"""Version information for oarepo_documents repository. 
+"""Version information for oarepo_documents repository.
 
 This file is imported by ``oarepo_documents.__init__``,
 and parsed by ``setup.py``.
