@@ -84,7 +84,7 @@ setup(
             'oarepo_documents = oarepo_documents.jsonschemas',
         ],
         'invenio_base.apps': [
-            'document = oarepo_documents.DocumentRecord',
+            #'document = oarepo_documents.DocumentRecordMixin',
             'oarepo_actions = oarepo_actions:Actions'
         ],
     },
