@@ -232,6 +232,9 @@
       "title": "Document type",
       "type": "string"
     },
+    "cover_metadata": {
+      "type": "object"
+    },
     "edition": {
       "minLength": 1,
       "title": "Book edition indicator",
