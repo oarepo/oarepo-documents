@@ -16,9 +16,5 @@ class SampleRecord(SchemaKeepingRecordMixin,
     PREFERRED_SCHEMA = SAMPLE_PREFERRED_SCHEMA
     MARSHMALLOW_SCHEMA = SampleSchemaV1
 
-    # @classmethod
-    # @action(url_path='test', detail=False)
-    # def test(cls,  **kwargs):
-    #     return {"id": "kch"}
     def validate(self, **kwargs):
         return super().validate(**kwargs)

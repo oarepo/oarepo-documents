@@ -14,7 +14,7 @@ setup(
             "tests = test_module.jsonschemas"
         ],
         'invenio_base.apps': [
-            'document = oarepo_document.DocumentRecord',
+            #'document = oarepo_document.DocumentRecord',
             'oarepo_actions = oarepo_actions:Actions'
         ],
     },

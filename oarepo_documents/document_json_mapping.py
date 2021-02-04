@@ -151,9 +151,9 @@ def schema_mapping(existing_record, doi):
         always_merger.merge(data, {'title': "unknown"}) #default
 
     # copyright
-    copyrights = try_name(nlist=['copyright', 'copyrights'], record=existing_record)
-    if copyrights != None and type(copyrights) is str:
-        always_merger.merge(data, {'copyrigts': [{"statement": copyrights}]})
+    # copyrights = try_name(nlist=['copyright', 'copyrights'], record=existing_record)
+    # if copyrights != None and type(copyrights) is str:
+    #     always_merger.merge(data, {'copyrigts': [{"statement": copyrights}]})
 
     # urls
     urls = try_name(nlist=['url', 'urls', 'URL', 'URLs'], record=existing_record)
