@@ -213,46 +213,6 @@
       ],
       "type": "object"
     },
-    "copyrights": {
-      "items": {
-        "additionalProperties": false,
-        "properties": {
-          "holder": {
-            "minLength": 1,
-            "title": "Copyright holder",
-            "type": "string"
-          },
-          "material": {
-            "minLength": 1,
-            "title": "Material to which the copyright refers",
-            "type": "string"
-          },
-          "statement": {
-            "minLength": 1,
-            "title": "Copyright notice",
-            "type": "string"
-          },
-          "url": {
-            "format": "uri",
-            "minLength": 1,
-            "title": "Copyright notice URL",
-            "type": "string"
-          },
-          "year": {
-            "minimum": 1900,
-            "type": "integer"
-          }
-        },
-        "type": "object"
-      },
-      "minItems": 1,
-      "title": "List of copyrights to documents in this record",
-      "type": "array",
-      "uniqueItems": true
-    },
-    "cover_metadata": {
-      "type": "object"
-    },
     "created_by": {
       "additionalProperties": false,
       "properties": {
