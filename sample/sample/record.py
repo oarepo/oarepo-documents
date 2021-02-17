@@ -16,5 +16,9 @@ class SampleRecord(SchemaKeepingRecordMixin,
     PREFERRED_SCHEMA = SAMPLE_PREFERRED_SCHEMA
     MARSHMALLOW_SCHEMA = SampleSchemaV1
 
+    @property
+    def canonical_url(self):
+        return f'https://localhost:5000/records/{self["pid"]}'
+
     def validate(self, **kwargs):
         return super().validate(**kwargs)

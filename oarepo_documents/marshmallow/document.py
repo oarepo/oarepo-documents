@@ -229,9 +229,7 @@ class DocumentSchemaV1(RecordMetadataSchemaJSONV1):
     alternative_titles = MultilingualStringV2()
     authors = fields.List(fields.Nested(AuthorSchema), required=True)
     conference_info = fields.Nested(ConferenceInfoSchema)
-    #copyrights = fields.List(fields.Nested(CopyrightsSchema))
     cover_metadata = fields.Dict()
-    #created_by = fields.Nested(ChangedBySchema)
     curated = fields.Bool()
     document_type = fields.Str()
     edition = fields.Str()
@@ -253,7 +251,6 @@ class DocumentSchemaV1(RecordMetadataSchemaJSONV1):
     table_of_content = fields.List(fields.Str())
     tags = fields.List(fields.Str())
     title = MultilingualStringV2(required=True)
-    #updated_by = fields.Nested(ChangedBySchema)
     urls = fields.List(fields.Nested(UrlSchema))
 
     def dump_extensions(self, obj):
@@ -276,10 +273,3 @@ class DocumentSchemaV1(RecordMetadataSchemaJSONV1):
                                      .to_schema()
         return ExtensionSchema().load(value)
 
-    # @pre_load
-    # def preload_fields(self, data, **kwargs):
-    #     """Automatically inject system fields."""
-    #     record = self.context.get("record")
-    #     data.update(set_changed_by(data, record))
-    #     data.update(preserve_cover_metadata(data, record))
-    #     return data
