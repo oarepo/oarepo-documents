@@ -8,4 +8,4 @@ def document_minter(object_uuid, data):
         object_uuid=object_uuid,
     )
     data['pid'] = provider.pid.pid_value
-    return provider.pid, data
+    return provider.pid

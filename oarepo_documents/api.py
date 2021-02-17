@@ -8,67 +8,58 @@
 """ILS Document APIs."""
 
 import uuid
-from functools import partial
 
 import requests
 from crossref.restful import Works
-from flask import current_app
+from flask import current_app, Response, request
+from invenio_base.utils import obj_or_import_string
 from invenio_db import db
 from invenio_indexer.api import RecordIndexer
-# from invenio_circulation.search.api import search_by_pid
-from invenio_pidstore.errors import PersistentIdentifierError
+from invenio_pidstore import current_pidstore
+from invenio_pidstore.errors import PersistentIdentifierError, PIDDoesNotExistError
 from invenio_pidstore.models import PersistentIdentifier, PIDStatus
-from invenio_pidstore.providers.recordid import RecordIdProvider
-from invenio_pidstore.providers.recordid_v2 import RecordIdProviderV2
-from invenio_records_files.api import Record
-# from invenio_app_ils.errors import RecordHasReferencesError
-# from invenio_app_ils.fetchers import pid_fetcher
-# from invenio_app_ils.minters import pid_minter
-# from invenio_app_ils.proxies import current_app_ils
-# from invenio_app_ils.records_relations.api import IlsRecordWithRelations
 from oarepo_actions.decorators import action
-from oarepo_records_draft.record import DraftRecordMixin
-from oarepo_validate import MarshmallowValidatedRecordMixin, SchemaKeepingRecordMixin
 
 from .document_json_mapping import schema_mapping
-from .marshmallow.document import DocumentSchemaV1
 from .minter import document_minter
 
 
 class DocumentRecordMixin:
     """Class for document record."""
-
+    DOI_PID_TYPE = 'doi'
+    DOCUMENT_MINTER = document_minter
+    DOCUMENT_INDEXER = RecordIndexer
     @classmethod
     @action(detail=False, method="post", url_path="document/<string:first_part>/<string:second_part>")
     def document_by_doi(cls, record_class, first_part=None, second_part=None, **kwargs):
         """Get metadata from DOI."""
         doi = first_part + '/' + second_part
         try:
-            pid = PersistentIdentifier.get('recid', doi)
-        except:
-            pid = None
-        if pid != None:
-            record = record_class.get_record(pid.object_uuid)
-            return record
-        else:
-            try:
-                existing_document = getMetadataFromDOI(doi)
-            except:
-                pass #todo: what to do here?
+            pid = PersistentIdentifier.get(cls.DOI_PID_TYPE, doi)
+            record = cls.get_record(pid.object_uuid)
+            return Response(status=302, headers={"Location": record.canonical_url})
+        except PIDDoesNotExistError:
+            pass
+
+        existing_document = getMetadataFromDOI(doi)
 
         record_uuid = uuid.uuid4()
-
         data = schema_mapping(existing_document, doi)
-        pid, data = document_minter(record_uuid, data)
-        record = record_class.create(data=data, id_=record_uuid)
-        indexer = RecordIndexer()
-        res = indexer.index(record)
-        new_doi = PersistentIdentifier.create('recid', doi, object_type='doi',
-                                              object_uuid=record_uuid,
-                                              status=PIDStatus.RESERVED)
+        minter = cls.DOCUMENT_MINTER
+        if hasattr(minter, '_get_current_object'):
+            minter = minter._get_current_object()
+        if isinstance(minter, str):
+            minter = obj_or_import_string(current_pidstore.minters[minter])
+        minter(record_uuid, data)
+        record = cls.create(data=data, id_=record_uuid)
+        indexer = cls.DOCUMENT_INDEXER()
+        indexer.index(record)
+        PersistentIdentifier.create(cls.DOI_PID_TYPE, doi, object_type='rec',
+                                    object_uuid=record_uuid,
+                                    status=PIDStatus.REGISTERED)
 
         db.session.commit()
-        return record
+        return Response(status=302, headers={"Location": record.canonical_url})
 
 class CrossRefClient(object):
     """Class for CrossRefClient."""
@@ -119,9 +110,6 @@ def getMetadataFromDOI(id):
     if metadata is None:
         s = CrossRefClient()
         metadata = s.doi2json(id)
-        #metadata = s.doi2turtle(id)
-        #metadata = s.doi2apa(id)
-        #metadata = s.doi2xml(id)
-
+    metadata.pop('id', None)
     return metadata
 

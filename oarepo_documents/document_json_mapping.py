@@ -194,5 +194,5 @@ def schema_mapping(existing_record, doi):
             key_json = {"value": key}
             keywords_array.append(key_json)
 
-        always_merger.merge(data, {'categories': keywords_array})
+        always_merger.merge(data, {'keywords': keywords_array})
     return data
