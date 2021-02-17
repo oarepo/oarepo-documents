@@ -2,11 +2,11 @@ from oarepo_documents.document_json_mapping import schema_mapping
 
 
 def test_createRecord(app, db, client):
-    existing_document =  {"categories": ["X", "yy", "kchchch", "K", "J", "x", "xxx", "xxxxxx"], "titles": ["Nějaká úžasná česká věta"]}
+    existing_document =  {"keywords": ["X", "yy", "kchchch", "K", "J", "x", "xxx", "xxxxxx"], "titles": ["Nějaká úžasná česká věta"]}
     data = schema_mapping(existing_document, 'doi')
     assert data == {'alternative_identifiers': [{'scheme': 'DOI', 'value': 'doi'}],
                     'authors': [{'full_name': 'Various authors'}],
-                    'categories': [{'value': 'X yy kchchch'},
+                    'keywords': [{'value': 'X yy kchchch'},
                                     {'value': 'K'},
                                     {'value': 'J x xxx xxxxxx'}],
                     'document_type': 'unknown',
