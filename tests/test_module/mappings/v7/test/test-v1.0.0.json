@@ -2,8 +2,6 @@
   "mappings": {
     "properties": {
   "Document": {
-    "date_detection": false,
-    "numeric_detection": false,
     "properties": {
       "$schema": {
         "type": "keyword"
