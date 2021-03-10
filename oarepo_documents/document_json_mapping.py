@@ -92,7 +92,7 @@ def schema_mapping(existing_record, doi):
                 if 'type' in author and type(author['type']) is str:
                     always_merger.merge(auth_data, {"type": author['type']})
                 #affiliation /affiliations
-                full_name = try_name(nlist=['full_name', 'name', 'fullname'], record=author)
+                full_name = try_name(nlist=['full_name', 'name', 'fullname', 'literal'], record=author)
                 if full_name != None:
                     always_merger.merge(auth_data, {"full_name": full_name})
                     authors_data.append(auth_data)
